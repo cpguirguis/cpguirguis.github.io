@@ -29,54 +29,6 @@
             overflow-x: hidden;
         }
 
-        /* Introduction Overlay */
-        .intro-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--bg);
-            z-index: 9999;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: opacity 1s ease;
-        }
-
-        .intro-overlay.fade-out {
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        .intro-text {
-            text-align: center;
-            padding: 2rem;
-        }
-
-        .intro-line {
-            font-size: clamp(1.5rem, 4vw, 3rem);
-            font-weight: 600;
-            line-height: 1.3;
-            opacity: 0;
-            transform: translateY(20px);
-        }
-
-        .intro-line.animate {
-            animation: fadeSlideUp 0.8s ease-out forwards;
-        }
-
-        .intro-line:nth-child(1) { animation-delay: 0.2s; color: var(--text-light); }
-        .intro-line:nth-child(2) { animation-delay: 0.6s; color: var(--text); }
-        .intro-line:nth-child(3) { animation-delay: 1s; color: var(--text-light); font-size: clamp(1.2rem, 3vw, 2rem); margin-top: 1rem; }
-
-        @keyframes fadeSlideUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
         /* Navigation */
         .nav {
             position: fixed;
@@ -86,12 +38,8 @@
             backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--border);
             z-index: 1000;
-            opacity: 0;
-            transition: opacity 0.5s ease;
-        }
-
-        .nav.visible {
             opacity: 1;
+            transition: opacity 0.5s ease;
         }
 
         .nav-container {
@@ -164,32 +112,10 @@
 
         .hero-greeting {
             font-size: 1.1rem;
-            background: linear-gradient(
-                90deg,
-                #667eea 0%,
-                #764ba2 25%,
-                #f093fb 50%,
-                #4facfe 75%,
-                #667eea 100%
-            );
-            background-size: 200% auto;
-            color: transparent;
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: var(--text);
             margin-bottom: 0.75rem;
             font-weight: 600;
             letter-spacing: -0.01em;
-            animation: holographic 8s linear infinite;
-        }
-
-        @keyframes holographic {
-            0% {
-                background-position: 0% center;
-            }
-            100% {
-                background-position: 200% center;
-            }
         }
 
         .hero-name {
@@ -204,20 +130,216 @@
         .glassy-text {
             position: relative;
             display: inline-block;
-            background: linear-gradient(
-                135deg,
-                rgba(255, 255, 255, 0.9) 0%,
-                rgba(255, 255, 255, 0.6) 25%,
-                rgba(200, 200, 255, 0.8) 50%,
-                rgba(150, 150, 255, 0.7) 75%,
-                rgba(255, 255, 255, 0.9) 100%
+            background: radial-gradient(
+                ellipse at center,
+                rgba(255, 255, 255, 0.95) 0%,
+                rgba(254, 254, 255, 0.949) 0.5%,
+                rgba(253, 253, 255, 0.948) 1%,
+                rgba(252, 252, 255, 0.947) 1.5%,
+                rgba(251, 251, 255, 0.946) 2%,
+                rgba(250, 250, 255, 0.945) 2.5%,
+                rgba(249, 249, 255, 0.944) 3%,
+                rgba(248, 248, 255, 0.943) 3.5%,
+                rgba(247, 247, 255, 0.942) 4%,
+                rgba(246, 246, 255, 0.941) 4.5%,
+                rgba(245, 245, 255, 0.94) 5%,
+                rgba(244, 244, 255, 0.939) 5.5%,
+                rgba(243, 243, 255, 0.938) 6%,
+                rgba(242, 242, 255, 0.937) 6.5%,
+                rgba(241, 241, 255, 0.936) 7%,
+                rgba(240, 240, 255, 0.935) 7.5%,
+                rgba(239, 239, 255, 0.934) 8%,
+                rgba(238, 238, 255, 0.933) 8.5%,
+                rgba(237, 237, 255, 0.932) 9%,
+                rgba(236, 236, 255, 0.931) 9.5%,
+                rgba(235, 235, 255, 0.93) 10%,
+                rgba(234, 234, 255, 0.929) 10.5%,
+                rgba(233, 233, 255, 0.928) 11%,
+                rgba(232, 232, 255, 0.927) 11.5%,
+                rgba(231, 231, 255, 0.926) 12%,
+                rgba(230, 230, 255, 0.925) 12.5%,
+                rgba(229, 229, 255, 0.924) 13%,
+                rgba(228, 228, 255, 0.923) 13.5%,
+                rgba(227, 227, 255, 0.922) 14%,
+                rgba(226, 226, 255, 0.921) 14.5%,
+                rgba(225, 225, 255, 0.92) 15%,
+                rgba(224, 224, 255, 0.919) 15.5%,
+                rgba(223, 223, 255, 0.918) 16%,
+                rgba(222, 222, 255, 0.917) 16.5%,
+                rgba(221, 221, 255, 0.916) 17%,
+                rgba(220, 220, 255, 0.915) 17.5%,
+                rgba(219, 219, 255, 0.914) 18%,
+                rgba(218, 218, 255, 0.913) 18.5%,
+                rgba(217, 217, 255, 0.912) 19%,
+                rgba(216, 216, 255, 0.911) 19.5%,
+                rgba(215, 215, 255, 0.91) 20%,
+                rgba(214, 214, 255, 0.909) 20.5%,
+                rgba(213, 213, 255, 0.908) 21%,
+                rgba(212, 212, 255, 0.907) 21.5%,
+                rgba(211, 211, 255, 0.906) 22%,
+                rgba(210, 210, 255, 0.905) 22.5%,
+                rgba(209, 209, 255, 0.904) 23%,
+                rgba(208, 208, 255, 0.903) 23.5%,
+                rgba(207, 207, 255, 0.902) 24%,
+                rgba(206, 206, 255, 0.901) 24.5%,
+                rgba(205, 205, 255, 0.9) 25%,
+                rgba(204, 204, 255, 0.899) 25.5%,
+                rgba(203, 203, 255, 0.898) 26%,
+                rgba(202, 202, 255, 0.897) 26.5%,
+                rgba(201, 201, 255, 0.896) 27%,
+                rgba(200, 200, 255, 0.895) 27.5%,
+                rgba(199, 199, 255, 0.894) 28%,
+                rgba(198, 198, 255, 0.893) 28.5%,
+                rgba(197, 197, 255, 0.892) 29%,
+                rgba(196, 196, 255, 0.891) 29.5%,
+                rgba(195, 195, 255, 0.89) 30%,
+                rgba(194, 194, 255, 0.889) 30.5%,
+                rgba(193, 193, 255, 0.888) 31%,
+                rgba(192, 192, 255, 0.887) 31.5%,
+                rgba(191, 191, 255, 0.886) 32%,
+                rgba(190, 190, 255, 0.885) 32.5%,
+                rgba(189, 189, 255, 0.884) 33%,
+                rgba(188, 188, 255, 0.883) 33.5%,
+                rgba(187, 187, 255, 0.882) 34%,
+                rgba(186, 186, 255, 0.881) 34.5%,
+                rgba(185, 185, 255, 0.88) 35%,
+                rgba(184, 184, 255, 0.879) 35.5%,
+                rgba(183, 183, 255, 0.878) 36%,
+                rgba(182, 182, 255, 0.877) 36.5%,
+                rgba(181, 181, 255, 0.876) 37%,
+                rgba(180, 180, 255, 0.875) 37.5%,
+                rgba(179, 179, 255, 0.874) 38%,
+                rgba(178, 178, 255, 0.873) 38.5%,
+                rgba(177, 177, 255, 0.872) 39%,
+                rgba(176, 176, 255, 0.871) 39.5%,
+                rgba(175, 175, 255, 0.87) 40%,
+                rgba(174, 174, 255, 0.869) 40.5%,
+                rgba(173, 173, 255, 0.868) 41%,
+                rgba(172, 172, 255, 0.867) 41.5%,
+                rgba(171, 171, 255, 0.866) 42%,
+                rgba(170, 170, 255, 0.865) 42.5%,
+                rgba(169, 169, 255, 0.864) 43%,
+                rgba(168, 168, 255, 0.863) 43.5%,
+                rgba(167, 167, 255, 0.862) 44%,
+                rgba(166, 166, 255, 0.861) 44.5%,
+                rgba(165, 165, 255, 0.86) 45%,
+                rgba(164, 164, 255, 0.859) 45.5%,
+                rgba(163, 163, 255, 0.858) 46%,
+                rgba(162, 162, 255, 0.857) 46.5%,
+                rgba(161, 161, 255, 0.856) 47%,
+                rgba(160, 160, 255, 0.855) 47.5%,
+                rgba(159, 159, 255, 0.854) 48%,
+                rgba(158, 158, 255, 0.853) 48.5%,
+                rgba(157, 157, 255, 0.852) 49%,
+                rgba(156, 156, 255, 0.851) 49.5%,
+                rgba(155, 155, 255, 0.85) 50%,
+                rgba(156, 156, 255, 0.851) 50.5%,
+                rgba(157, 157, 255, 0.852) 51%,
+                rgba(158, 158, 255, 0.853) 51.5%,
+                rgba(159, 159, 255, 0.854) 52%,
+                rgba(160, 160, 255, 0.855) 52.5%,
+                rgba(161, 161, 255, 0.856) 53%,
+                rgba(162, 162, 255, 0.857) 53.5%,
+                rgba(163, 163, 255, 0.858) 54%,
+                rgba(164, 164, 255, 0.859) 54.5%,
+                rgba(165, 165, 255, 0.86) 55%,
+                rgba(166, 166, 255, 0.861) 55.5%,
+                rgba(167, 167, 255, 0.862) 56%,
+                rgba(168, 168, 255, 0.863) 56.5%,
+                rgba(169, 169, 255, 0.864) 57%,
+                rgba(170, 170, 255, 0.865) 57.5%,
+                rgba(171, 171, 255, 0.866) 58%,
+                rgba(172, 172, 255, 0.867) 58.5%,
+                rgba(173, 173, 255, 0.868) 59%,
+                rgba(174, 174, 255, 0.869) 59.5%,
+                rgba(175, 175, 255, 0.87) 60%,
+                rgba(176, 176, 255, 0.871) 60.5%,
+                rgba(177, 177, 255, 0.872) 61%,
+                rgba(178, 178, 255, 0.873) 61.5%,
+                rgba(179, 179, 255, 0.874) 62%,
+                rgba(180, 180, 255, 0.875) 62.5%,
+                rgba(181, 181, 255, 0.876) 63%,
+                rgba(182, 182, 255, 0.877) 63.5%,
+                rgba(183, 183, 255, 0.878) 64%,
+                rgba(184, 184, 255, 0.879) 64.5%,
+                rgba(185, 185, 255, 0.88) 65%,
+                rgba(186, 186, 255, 0.881) 65.5%,
+                rgba(187, 187, 255, 0.882) 66%,
+                rgba(188, 188, 255, 0.883) 66.5%,
+                rgba(189, 189, 255, 0.884) 67%,
+                rgba(190, 190, 255, 0.885) 67.5%,
+                rgba(191, 191, 255, 0.886) 68%,
+                rgba(192, 192, 255, 0.887) 68.5%,
+                rgba(193, 193, 255, 0.888) 69%,
+                rgba(194, 194, 255, 0.889) 69.5%,
+                rgba(195, 195, 255, 0.89) 70%,
+                rgba(196, 196, 255, 0.891) 70.5%,
+                rgba(197, 197, 255, 0.892) 71%,
+                rgba(198, 198, 255, 0.893) 71.5%,
+                rgba(199, 199, 255, 0.894) 72%,
+                rgba(200, 200, 255, 0.895) 72.5%,
+                rgba(201, 201, 255, 0.896) 73%,
+                rgba(202, 202, 255, 0.897) 73.5%,
+                rgba(203, 203, 255, 0.898) 74%,
+                rgba(204, 204, 255, 0.899) 74.5%,
+                rgba(205, 205, 255, 0.9) 75%,
+                rgba(206, 206, 255, 0.901) 75.5%,
+                rgba(207, 207, 255, 0.902) 76%,
+                rgba(208, 208, 255, 0.903) 76.5%,
+                rgba(209, 209, 255, 0.904) 77%,
+                rgba(210, 210, 255, 0.905) 77.5%,
+                rgba(211, 211, 255, 0.906) 78%,
+                rgba(212, 212, 255, 0.907) 78.5%,
+                rgba(213, 213, 255, 0.908) 79%,
+                rgba(214, 214, 255, 0.909) 79.5%,
+                rgba(215, 215, 255, 0.91) 80%,
+                rgba(216, 216, 255, 0.911) 80.5%,
+                rgba(217, 217, 255, 0.912) 81%,
+                rgba(218, 218, 255, 0.913) 81.5%,
+                rgba(219, 219, 255, 0.914) 82%,
+                rgba(220, 220, 255, 0.915) 82.5%,
+                rgba(221, 221, 255, 0.916) 83%,
+                rgba(222, 222, 255, 0.917) 83.5%,
+                rgba(223, 223, 255, 0.918) 84%,
+                rgba(224, 224, 255, 0.919) 84.5%,
+                rgba(225, 225, 255, 0.92) 85%,
+                rgba(226, 226, 255, 0.921) 85.5%,
+                rgba(227, 227, 255, 0.922) 86%,
+                rgba(228, 228, 255, 0.923) 86.5%,
+                rgba(229, 229, 255, 0.924) 87%,
+                rgba(230, 230, 255, 0.925) 87.5%,
+                rgba(231, 231, 255, 0.926) 88%,
+                rgba(232, 232, 255, 0.927) 88.5%,
+                rgba(233, 233, 255, 0.928) 89%,
+                rgba(234, 234, 255, 0.929) 89.5%,
+                rgba(235, 235, 255, 0.93) 90%,
+                rgba(236, 236, 255, 0.931) 90.5%,
+                rgba(237, 237, 255, 0.932) 91%,
+                rgba(238, 238, 255, 0.933) 91.5%,
+                rgba(239, 239, 255, 0.934) 92%,
+                rgba(240, 240, 255, 0.935) 92.5%,
+                rgba(241, 241, 255, 0.936) 93%,
+                rgba(242, 242, 255, 0.937) 93.5%,
+                rgba(243, 243, 255, 0.938) 94%,
+                rgba(244, 244, 255, 0.939) 94.5%,
+                rgba(245, 245, 255, 0.94) 95%,
+                rgba(246, 246, 255, 0.941) 95.5%,
+                rgba(247, 247, 255, 0.942) 96%,
+                rgba(248, 248, 255, 0.943) 96.5%,
+                rgba(249, 249, 255, 0.944) 97%,
+                rgba(250, 250, 255, 0.945) 97.5%,
+                rgba(251, 251, 255, 0.946) 98%,
+                rgba(252, 252, 255, 0.947) 98.5%,
+                rgba(253, 253, 255, 0.948) 99%,
+                rgba(254, 254, 255, 0.949) 99.5%,
+                rgba(255, 255, 255, 0.95) 100%
             );
-            background-size: 200% 200%;
+            background-size: 2000% 2000%;
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
-            animation: glassyShine 4s ease-in-out infinite;
-            filter: drop-shadow(0 0 10px rgba(150, 150, 255, 0.3));
+            animation: glassyRotation 420s ease-in-out infinite;
+            filter: drop-shadow(0 0 20px rgba(150, 150, 255, 0.15));
         }
 
         .glassy-text::before {
@@ -239,12 +361,12 @@
             filter: blur(8px);
         }
 
-        @keyframes glassyShine {
-            0%, 100% {
-                background-position: 0% 50%;
+        @keyframes glassyRotation {
+            0% {
+                background-position: 900% -300%;
             }
-            50% {
-                background-position: 100% 50%;
+            100% {
+                background-position: -300% 900%;
             }
         }
 
@@ -671,17 +793,8 @@
     </style>
 </head>
 <body>
-    <!-- Introduction Overlay -->
-    <div class="intro-overlay" id="introOverlay">
-        <div class="intro-text">
-            <div class="intro-line">Hi, I'm Cyril</div>
-            <div class="intro-line">I create software that makes a <span class="glassy-text">difference</span></div>
-            <div class="intro-line">Let's build something amazing</div>
-        </div>
-    </div>
-
     <!-- Navigation -->
-    <nav class="nav" id="mainNav">
+    <nav class="nav visible" id="mainNav">
         <div class="nav-container">
             <a href="#home" class="logo">Cyril</a>
             <ul class="nav-links">
@@ -696,7 +809,7 @@
     <!-- Hero Section -->
     <section id="home" class="hero">
         <div class="hero-content">
-            <p class="hero-greeting">Hello, I'm Cyril</p>
+            <p class="hero-greeting">👋 Hello, I'm Cyril</p>
             <h1 class="hero-name">I create software that makes a <span class="glassy-text">difference</span>.</h1>
             <p class="hero-description">
                 I design and build digital products that combine beautiful interfaces 
@@ -726,8 +839,7 @@
                     push boundaries and learn something new.
                 </p>
                 <p>
-                    When I'm not coding, you'll find me contributing to open-source projects, mentoring aspiring 
-                    developers, or exploring the latest technologies shaping our digital future.
+                    When I'm not at the keyboard, I'm frequenting Ontario's hiking and biking trails, diving into philosophy and sci-fi novels, and doing outreach through my local church. I relish a good chess match or a tennis rally anytime.
                 </p>
             </div>
             
@@ -945,29 +1057,6 @@
     </footer>
 
     <script>
-        // Introduction Animation
-        function initIntro() {
-            const overlay = document.getElementById('introOverlay');
-            const nav = document.getElementById('mainNav');
-            const lines = document.querySelectorAll('.intro-line');
-            
-            // Animate lines
-            lines.forEach((line, index) => {
-                setTimeout(() => {
-                    line.classList.add('animate');
-                }, index * 400);
-            });
-            
-            // Fade out intro
-            setTimeout(() => {
-                overlay.classList.add('fade-out');
-                nav.classList.add('visible');
-                setTimeout(() => {
-                    overlay.style.display = 'none';
-                }, 1000);
-            }, 3000);
-        }
-
         // Smooth Scrolling
         function setupSmoothScrolling() {
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -1025,7 +1114,6 @@
 
         // Initialize
         document.addEventListener('DOMContentLoaded', () => {
-            initIntro();
             setupSmoothScrolling();
             updateActiveNav();
         });
