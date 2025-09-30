@@ -399,10 +399,14 @@
             font-weight: 600;
             font-size: 0.95rem;
             transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+            will-change: transform;
+            backface-visibility: hidden;
+            transform-style: preserve-3d;
+            -webkit-font-smoothing: antialiased;
         }
 
         .hero-cta:hover {
-            transform: translateY(-3px);
+            transform: translate3d(0, -3px, 0);
             background: #1D4ED8;
         }
 
@@ -493,6 +497,7 @@
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 1.5rem;
+            perspective: 1000px;
         }
 
         .project-card {
@@ -501,12 +506,24 @@
             border-radius: 12px;
             padding: 2rem;
             transition: all 0.3s ease;
+            will-change: transform;
+            backface-visibility: hidden;
+            transform-style: preserve-3d;
+            -webkit-font-smoothing: antialiased;
+            filter: none;
+            image-rendering: crisp-edges;
+            text-rendering: optimizeLegibility;
+            font-feature-settings: 'kern' 1;
+            transform-origin: center center;
+            isolation: isolate;
+            contain: layout style;
+            pointer-events: auto;
         }
 
         .project-card:hover {
             border-color: var(--accent);
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.06);
-            transform: translateY(-2px);
+            transform: translate3d(0, -2px, 0);
         }
 
         .project-meta {
@@ -737,11 +754,15 @@
             font-size: 0.95rem;
             cursor: pointer;
             transition: all 0.3s ease;
+            will-change: transform;
+            backface-visibility: hidden;
+            transform-style: preserve-3d;
+            -webkit-font-smoothing: antialiased;
         }
 
         .submit-btn:hover {
             background: #1D4ED8;
-            transform: translateY(-2px);
+            transform: translate3d(0, -2px, 0);
         }
 
         /* Footer */
