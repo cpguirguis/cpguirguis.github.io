@@ -392,13 +392,13 @@
         .hero-cta {
             display: inline-block;
             padding: 0.85rem 2rem;
-            background: var(--accent);
+            background: #2563EB;
             color: white;
             text-decoration: none;
             border-radius: 8px;
             font-weight: 600;
             font-size: 0.95rem;
-            transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+            transition: transform 0.2s ease, background-color 0.2s ease;
             will-change: transform;
             backface-visibility: hidden;
             transform-style: preserve-3d;
@@ -506,16 +506,28 @@
             border-radius: 12px;
             padding: 2rem;
             transition: all 0.3s ease;
-            will-change: transform;
+            position: relative;
+            /* Advanced text rendering optimization */
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizeLegibility;
+            /* Force hardware acceleration for smooth rendering */
+            will-change: transform, box-shadow, border-color;
             backface-visibility: hidden;
             transform-style: preserve-3d;
-            -webkit-font-smoothing: antialiased;
+            /* Prevent blur during transitions */
+            transform: translateZ(0);
         }
 
         .project-card:hover {
             border-color: var(--accent);
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.06);
-            transform: translate3d(0, -2px, 0);
+            /* Use exact pixel values to prevent subpixel blur */
+            transform: translate3d(0, -2px, 0) translateZ(0);
+            /* Maintain crisp text rendering */
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizeLegibility;
         }
 
         .project-meta {
@@ -854,17 +866,17 @@
         </div>
         
         <div class="about-grid">
-
             <div class="about-text">
                 <p>
                     I'm a software engineer passionate about creating elegant solutions to complex problems. 
-                    With a focus on modern web technologies and user-centered design,     I build applications 
+                    With a focus on modern web technologies and user-centered design, I build applications 
                     that are both beautiful and functional.
                 </p>
                 <p>
-                   I believe the best technology begins with a question, not an answer. My process is rooted 
-                    in a deep curiosity about the people I'm building for. I strive to create systems that are 
-                    not only powerful and efficient but also intuitive and empathetic to human needs.
+                    My approach is rooted in the belief that the best technology begins with a question, not an answer. 
+                    I combine technical expertise with a deep curiosity for the people I'm building for, striving to 
+                    create systems that are not only powerful and efficient but also intuitive, performant, and 
+                    accessible to everyone. Every project is an opportunity to push boundaries and learn something new.
                 </p>
                 <p>
                     When I'm not at the keyboard, I'm frequenting Ontario's hiking and biking trails, diving into philosophy and sci-fi novels, and doing outreach through my local church. I relish a good chess match or a tennis rally anytime.
@@ -1148,6 +1160,3 @@
     </script>
 </body>
 </html>
-
-
-
