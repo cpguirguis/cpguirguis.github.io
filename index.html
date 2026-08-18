@@ -772,15 +772,11 @@
             align-items: center;
             gap: 1.75rem;
             min-height: 0;
-            /* Left-anchored filmstrip: the reel starts at the edge and runs off
-               the right, so the panel reads as a sequence rather than a
-               centred carousel with a void on either side. The trailing pad
-               lets the final screen still reach the leading edge. */
             padding-left: 2rem;
-            padding-right: max(2rem, calc(100% - 2rem - var(--pd-phone-w)));
+            padding-right: 2rem;
             overflow-x: auto;
             overflow-y: hidden;
-            scroll-snap-type: x mandatory;
+            scroll-snap-type: x proximity;
             scroll-behavior: smooth;
             -webkit-overflow-scrolling: touch;
             scrollbar-width: none;
@@ -789,6 +785,9 @@
         .showcase-rail::-webkit-scrollbar {
             display: none;
         }
+
+        .showcase-phone:first-child { margin-left: auto; }
+        .showcase-phone:last-child  { margin-right: auto; }
 
         .showcase-phone {
             flex: 0 0 auto;
@@ -801,7 +800,7 @@
             box-shadow:
                 0 0 0 1px rgba(255, 255, 255, 0.07),
                 0 30px 60px -25px rgba(0, 0, 0, 0.9);
-            scroll-snap-align: start;
+            scroll-snap-align: center;
             /* Each screen lifts in a beat after the one before it, so the rail
                assembles itself instead of arriving all at once. */
             opacity: 0;
@@ -1140,8 +1139,11 @@
             .showcase-rail {
                 --pd-phone-h: min(58vh, 470px);
                 gap: 1.1rem;
-                padding-left: 1.25rem;
-                padding-right: max(1.25rem, calc(100% - 1.25rem - var(--pd-phone-w)));
+                /* One screen at a time on phones, so pad the rail out to the
+                   viewport centre: every screen gets a reachable centred
+                   position, app-store style. */
+                padding-left: max(1.25rem, calc(50% - var(--pd-phone-w) / 2));
+                padding-right: max(1.25rem, calc(50% - var(--pd-phone-w) / 2));
             }
 
             .showcase-caption {
@@ -1662,14 +1664,16 @@
 
             // Whichever screen leads the rail is the one described underneath it.
             let ticking = false;
+            let holdUntil = 0;
             rail.addEventListener('scroll', () => {
-                if (ticking || !phones.length) return;
+                if (ticking || !phones.length || performance.now() < holdUntil) return;
                 ticking = true;
                 requestAnimationFrame(() => {
-                    const lead = rail.scrollLeft + phones[0].offsetLeft;
+                    const mid = rail.scrollLeft + rail.clientWidth / 2;
                     let best = 0, bestDist = Infinity;
                     phones.forEach((p, i) => {
-                        const dist = Math.abs(p.offsetLeft - lead);
+                        const centre = p.offsetLeft + p.offsetWidth / 2;
+                        const dist = Math.abs(centre - mid);
                         if (dist < bestDist) { bestDist = dist; best = i; }
                     });
                     showScreen(best);
@@ -1680,8 +1684,10 @@
             function scrollToScreen(index) {
                 const p = phones[index];
                 if (!p) return;
+                holdUntil = performance.now() + 650;
+                showScreen(index);
                 rail.scrollTo({
-                    left: p.offsetLeft - phones[0].offsetLeft,
+                    left: p.offsetLeft - (rail.clientWidth - p.offsetWidth) / 2,
                     behavior: calm.matches ? 'auto' : 'smooth'
                 });
             }
