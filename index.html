@@ -532,6 +532,10 @@
             text-rendering: optimizeLegibility;
         }
 
+        .project-card.has-gallery {
+            cursor: pointer;
+        }
+
         .project-meta {
             display: flex;
             justify-content: space-between;
@@ -590,307 +594,232 @@
             text-decoration: none;
             font-weight: 600;
             font-size: 0.9rem;
+            background: none;
+            border: none;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            cursor: pointer;
         }
 
         .project-link:hover {
             text-decoration: underline;
         }
 
-        /* ==================================================================
-           PARADIME — card treatment + screenshot showcase
-           Palette is taken from the app's own source, not invented:
-           #725DFF is its button colour, #0E1420 its navigation bar,
-           #94D2BD the mint it uses for review metadata.
-           ================================================================== */
-        :root {
-            --pd-ink: #0E1420;
-            --pd-violet: #725DFF;   /* Paradime: its own button colour */
-            --wyp-accent: #F25C54;  /* WYP: placeholder until the real brand colour is known */
-            --pd-mint: #94D2BD;
-        }
-
-        /* Each card sets --accent; the showcase inherits it when opened. */
-        .project-card--app { cursor: pointer; }
-        .project-card--app  { --accent: var(--pd-violet); }
-        .project-card--wyp { --accent: var(--wyp-accent); }
-
-        .project-card--app:hover {
-            border-color: var(--accent);
-            box-shadow: 0 10px 40px rgba(10, 10, 10, 0.09);
-        }
-
-        .project-card--app .project-number {
-            color: var(--accent);
-            background: color-mix(in srgb, var(--accent) 12%, transparent);
-        }
-
-        /* Four screens peeking over the lip of a dark well. Only their top
-           third is visible, so the card poses a question the showcase answers. */
-        .pd-peek {
-            display: flex;
-            align-items: flex-end;
-            gap: 0.5rem;
-            margin: 0 0 1.5rem;
-            padding: 1rem 1rem 0;
-            height: 132px;
-            background: var(--pd-ink);
-            border-radius: 10px;
-            overflow: hidden;
-        }
-
-        .pd-peek img {
-            display: block;
-            width: 25%;
-            height: 108px;
-            border-radius: 5px 5px 0 0;
-            object-fit: cover;
-            object-position: top center;
-            background: #F9F8F6;
-            transform: translateY(0);
-            transition: transform 0.5s cubic-bezier(0.16, 0.84, 0.24, 1);
-        }
-
-        .project-card--app:hover .pd-peek img {
-            transform: translateY(-10px);
-        }
-
-        .project-card--app:hover .pd-peek img:nth-child(2) { transition-delay: 0.05s; }
-        .project-card--app:hover .pd-peek img:nth-child(3) { transition-delay: 0.1s; }
-        .project-card--app:hover .pd-peek img:nth-child(4) { transition-delay: 0.15s; }
-
-        .project-link--app {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.45rem;
-            padding: 0;
-            border: none;
-            background: none;
-            font-family: 'Inter', sans-serif;
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: var(--accent);
-            cursor: pointer;
-        }
-
-        .project-link--app:hover {
-            text-decoration: underline;
-        }
-
-        .project-link--app svg {
-            transition: transform 0.3s cubic-bezier(0.16, 0.84, 0.24, 1);
-        }
-
-        .project-card--app:hover .project-link--app svg {
-            transform: translateX(4px);
-        }
-
-        .showcase {
+        /* ------------------------------------------------------------------ */
+        /* Project Gallery (lightbox)                                          */
+        /* ------------------------------------------------------------------ */
+        .gallery-overlay {
             position: fixed;
             inset: 0;
             z-index: 2000;
-        }
-
-        .showcase[hidden] {
-            display: none;
-        }
-
-        /* The panel is clipped to the card's own rectangle on open, then the
-           clip opens out to the full viewport. Animating clip-path rather than
-           width/height means no reflow and no scaling, so every glyph inside
-           stays pin-sharp for the whole 620ms. */
-        .showcase-surface {
-            --accent: var(--pd-violet);
-            position: absolute;
-            inset: 0;
-            display: flex;
-            flex-direction: column;
-            background: var(--pd-ink);
-            color: #FFFFFF;
-            clip-path: inset(50% 50% 50% 50% round 12px);
-            transition: clip-path 0.58s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .showcase.is-open .showcase-surface {
-            clip-path: inset(0% 0% 0% 0% round 0px);
-        }
-
-        .showcase-bar {
-            flex: 0 0 auto;
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            gap: 1rem;
-            padding: 1.5rem 2rem;
-        }
-
-        .showcase-id {
-            display: flex;
-            flex-direction: column;
-            gap: 0.1rem;
-        }
-
-        .showcase-mark {
-            font-size: 1rem;
-            font-weight: 700;
-            letter-spacing: -0.01em;
-        }
-
-        .showcase-sub {
-            font-size: 0.78rem;
-            color: rgba(255, 255, 255, 0.5);
-        }
-
-        .showcase-close {
-            display: grid;
-            place-items: center;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            border: 1px solid rgba(255, 255, 255, 0.16);
-            background: transparent;
-            color: #FFFFFF;
-            cursor: pointer;
-            transition: background-color 0.25s ease, border-color 0.25s ease;
-        }
-
-        .showcase-close:hover {
-            background: rgba(255, 255, 255, 0.08);
-            border-color: rgba(255, 255, 255, 0.35);
-        }
-
-        .showcase-close:focus-visible,
-        .showcase-rail:focus-visible {
-            outline: 2px solid var(--accent);
-            outline-offset: 3px;
-        }
-
-        .showcase-rail {
-            --pd-phone-h: min(64vh, 620px);
-            --pd-phone-w: calc(var(--pd-phone-h) * 720 / 1560);
-            flex: 1 1 auto;
-            display: flex;
-            align-items: center;
-            gap: 1.75rem;
-            min-height: 0;
-            padding-left: 2rem;
-            padding-right: 2rem;
-            overflow-x: auto;
-            overflow-y: hidden;
-            scroll-snap-type: x proximity;
-            scroll-behavior: smooth;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: none;
-        }
-
-        .showcase-rail::-webkit-scrollbar {
-            display: none;
-        }
-
-        .showcase-phone:first-child { margin-left: auto; }
-        .showcase-phone:last-child  { margin-right: auto; }
-
-        .showcase-phone {
-            flex: 0 0 auto;
-            height: var(--pd-phone-h);
-            width: var(--pd-phone-w);
-            margin: 0;
-            padding: 7px;
-            border-radius: 30px;
-            background: linear-gradient(160deg, #2A3346, #0B0F19);
-            box-shadow:
-                0 0 0 1px rgba(255, 255, 255, 0.07),
-                0 30px 60px -25px rgba(0, 0, 0, 0.9);
-            scroll-snap-align: center;
-            /* Each screen lifts in a beat after the one before it, so the rail
-               assembles itself instead of arriving all at once. */
+            justify-content: center;
+            padding: 2rem;
+            background: rgba(250, 250, 250, 0.55);
+            -webkit-backdrop-filter: blur(0px) saturate(100%);
+            backdrop-filter: blur(0px) saturate(100%);
             opacity: 0;
-            transform: translateY(28px);
+            visibility: hidden;
             transition:
-                opacity 0.5s ease,
-                transform 0.6s cubic-bezier(0.16, 0.84, 0.24, 1),
-                box-shadow 0.4s ease;
-            transition-delay: calc(var(--i) * 60ms + 280ms);
+                opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+                backdrop-filter 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+                -webkit-backdrop-filter 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+                visibility 0s linear 0.45s;
         }
 
-        .showcase.is-open .showcase-phone {
+        .gallery-overlay.open {
+            opacity: 1;
+            visibility: visible;
+            -webkit-backdrop-filter: blur(22px) saturate(140%);
+            backdrop-filter: blur(22px) saturate(140%);
+            transition:
+                opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+                backdrop-filter 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+                -webkit-backdrop-filter 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+                visibility 0s linear 0s;
+        }
+
+        .gallery-panel {
+            width: min(1040px, 100%);
+            max-height: calc(100vh - 4rem);
+            display: flex;
+            flex-direction: column;
+            transform: translateY(14px) scale(0.985);
+            opacity: 0;
+            transition:
+                transform 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+                opacity 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .gallery-overlay.open .gallery-panel {
+            transform: translateY(0) scale(1);
+            opacity: 1;
+        }
+
+        .gallery-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 1.5rem;
+            margin-bottom: 1.75rem;
+        }
+
+        .gallery-title {
+            font-size: clamp(1.4rem, 3vw, 1.9rem);
+            font-weight: 700;
+            color: var(--text);
+            letter-spacing: -0.01em;
+            line-height: 1.2;
+        }
+
+        .gallery-subtitle {
+            margin-top: 0.35rem;
+            font-size: 0.95rem;
+            color: var(--text-light);
+            max-width: 560px;
+            line-height: 1.55;
+        }
+
+        .gallery-close {
+            flex-shrink: 0;
+            width: 42px;
+            height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            background: var(--card);
+            color: var(--text);
+            font-size: 1.05rem;
+            line-height: 1;
+            cursor: pointer;
+            transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+                        border-color 0.25s ease,
+                        box-shadow 0.25s ease;
+        }
+
+        .gallery-close:hover {
+            transform: rotate(90deg);
+            border-color: var(--accent);
+            box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+        }
+
+        .gallery-screens {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            align-items: start;
+            overflow-y: auto;
+            padding: 0.25rem 0.25rem 0.5rem;
+        }
+
+        .gallery-shot {
+            position: relative;
+            border-radius: 22px;
+            overflow: hidden;
+            background: var(--card);
+            border: 1px solid var(--border);
+            box-shadow: 0 18px 50px rgba(10, 10, 10, 0.10);
+            transform: translateY(26px);
+            opacity: 0;
+            transition:
+                transform 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+                opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+                box-shadow 0.35s ease;
+        }
+
+        .gallery-overlay.open .gallery-shot {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .gallery-overlay.open .gallery-shot:nth-child(1) { transition-delay: 0.08s; }
+        .gallery-overlay.open .gallery-shot:nth-child(2) { transition-delay: 0.16s; }
+        .gallery-overlay.open .gallery-shot:nth-child(3) { transition-delay: 0.24s; }
+
+        .gallery-shot:hover {
+            box-shadow: 0 26px 70px rgba(10, 10, 10, 0.16);
+        }
+
+        .gallery-shot img {
+            display: block;
+            width: 100%;
+            height: auto;
+            aspect-ratio: 9 / 19.5;
+            object-fit: cover;
+            background: linear-gradient(160deg, #F1F5FF 0%, #E8EDFB 55%, #F6F8FF 100%);
+        }
+
+        .gallery-shot .shot-caption {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            padding: 1.6rem 1rem 0.85rem;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: #FFFFFF;
+            background: linear-gradient(to top, rgba(10, 10, 10, 0.55), rgba(10, 10, 10, 0));
+            opacity: 0;
+            transform: translateY(6px);
+            transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+            pointer-events: none;
+        }
+
+        .gallery-shot:hover .shot-caption {
             opacity: 1;
             transform: translateY(0);
         }
 
-        .showcase-phone.is-active {
-            box-shadow:
-                0 0 0 1px color-mix(in srgb, var(--accent) 55%, transparent),
-                0 30px 70px -22px color-mix(in srgb, var(--accent) 55%, transparent);
-        }
-
-        .showcase-phone img {
-            display: block;
-            width: 100%;
-            height: 100%;
-            border-radius: 23px;
-            object-fit: cover;
-            object-position: top center;
-            background: #F9F8F6;
-        }
-
-        .showcase-meta {
-            flex: 0 0 auto;
-            display: grid;
-            grid-template-columns: 1fr auto;
-            align-items: center;
-            gap: 0.9rem 1.5rem;
-            padding: 1.25rem 2rem 2rem;
-        }
-
-        .showcase-caption {
-            grid-column: 1 / -1;
-            max-width: 46ch;
-            min-height: 3.1em;
-            font-size: 0.95rem;
-            line-height: 1.55;
-            color: rgba(255, 255, 255, 0.6);
-            transition: opacity 0.24s ease;
-        }
-
-        .showcase-caption strong {
-            display: block;
-            font-size: 1rem;
-            font-weight: 600;
-            color: #FFFFFF;
-            margin-bottom: 0.1rem;
-        }
-
-        .showcase-caption.is-swapping {
-            opacity: 0;
-        }
-
-        .showcase-progress {
-            position: relative;
-            height: 2px;
-            border-radius: 2px;
-            background: rgba(255, 255, 255, 0.12);
-        }
-
-        .showcase-progress span {
+        .shot-placeholder {
             position: absolute;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            width: 25%;
-            border-radius: 2px;
-            background: var(--accent);
-            transition: width 0.45s cubic-bezier(0.16, 0.84, 0.24, 1);
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            text-align: center;
+            padding: 1.25rem;
+            color: var(--text-light);
+            font-size: 0.8rem;
+            line-height: 1.5;
+            background: linear-gradient(160deg, #F1F5FF 0%, #E8EDFB 55%, #F6F8FF 100%);
         }
 
-        .showcase-count {
-            font-size: 0.78rem;
-            font-variant-numeric: tabular-nums;
-            letter-spacing: 0.08em;
-            color: rgba(255, 255, 255, 0.45);
+        .shot-placeholder strong {
+            color: var(--text);
+            font-size: 0.85rem;
         }
 
-        body.is-locked {
+        body.gallery-open {
             overflow: hidden;
+        }
+
+        @media (max-width: 820px) {
+            .gallery-overlay {
+                padding: 1.25rem;
+            }
+
+            .gallery-screens {
+                grid-template-columns: 1fr;
+                max-height: 60vh;
+            }
+
+            .gallery-shot img {
+                aspect-ratio: 9 / 16;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .gallery-overlay,
+            .gallery-panel,
+            .gallery-shot {
+                transition-duration: 0.01s !important;
+                transition-delay: 0s !important;
+            }
         }
 
         /* Skills Section */
@@ -1127,44 +1056,6 @@
             .section-title {
                 font-size: clamp(1.75rem, 5vw, 2.25rem);
             }
-
-            .showcase-bar {
-                padding: 1.1rem 1.25rem;
-            }
-
-            .showcase-meta {
-                padding: 1rem 1.25rem 1.75rem;
-            }
-
-            .showcase-rail {
-                --pd-phone-h: min(58vh, 470px);
-                gap: 1.1rem;
-                /* One screen at a time on phones, so pad the rail out to the
-                   viewport centre: every screen gets a reachable centred
-                   position, app-store style. */
-                padding-left: max(1.25rem, calc(50% - var(--pd-phone-w) / 2));
-                padding-right: max(1.25rem, calc(50% - var(--pd-phone-w) / 2));
-            }
-
-            .showcase-caption {
-                font-size: 0.88rem;
-                min-height: 4.3em;
-            }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            .showcase-surface,
-            .showcase-phone,
-            .showcase-caption,
-            .showcase-progress span,
-            .pd-peek img {
-                transition-duration: 0.01ms !important;
-                transition-delay: 0ms !important;
-            }
-
-            .showcase-rail {
-                scroll-behavior: auto;
-            }
         }
     </style>
 </head>
@@ -1253,69 +1144,43 @@
         </div>
         
         <div class="projects-grid">
-            <article class="project-card project-card--app project-card--pd" id="paradimeCard" data-showcase="paradime">
-                <div class="pd-peek" aria-hidden="true">
-                    <img src="images/paradime-01-profile.jpg" alt="" loading="lazy">
-                    <img src="images/paradime-02-location.jpg" alt="" loading="lazy">
-                    <img src="images/paradime-03-services.jpg" alt="" loading="lazy">
-                    <img src="images/paradime-04-payment.jpg" alt="" loading="lazy">
-                </div>
+            <article class="project-card has-gallery" data-gallery="paradigm" tabindex="0" role="button" aria-haspopup="dialog" aria-label="Paradigm — view screenshots">
                 <div class="project-meta">
                     <span class="project-number">01</span>
-                    <span class="project-year">2026</span>
+                    <span class="project-year">2023 — Present</span>
                 </div>
-                <h3 class="project-title">Paradime</h3>
+                <h3 class="project-title">Paradigm</h3>
                 <p class="project-description">
-                    A two-sided marketplace for beauty services, connecting customers with independent 
-                    nail, hair, and makeup providers across Toronto. Providers publish their menu, 
-                    availability, and portfolio; customers book a slot and pay in-app, at the studio 
-                    or at their own address.
+                    A native Android app built with a fully declarative Jetpack Compose UI 
+                    and a Kotlin/Ktor REST backend — designed, architected, and developed 
+                    end to end.
                 </p>
                 <div class="project-tech">
                     <span class="tech-tag">Kotlin</span>
                     <span class="tech-tag">Jetpack Compose</span>
                     <span class="tech-tag">Ktor</span>
-                    <span class="tech-tag">GraphQL</span>
-                    <span class="tech-tag">PostGIS</span>
+                    <span class="tech-tag">REST API</span>
                 </div>
-                <button type="button" class="project-link project-link--app" data-trigger aria-haspopup="dialog">
-                    See the app
-                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-                        <path d="M1 7h11M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                </button>
+                <button class="project-link" type="button">View Screenshots →</button>
             </article>
 
-            <article class="project-card project-card--app project-card--wyp" id="wypCard" data-showcase="wyp">
-                <div class="pd-peek" aria-hidden="true">
-                    <img src="images/wyp-01-placeholder.jpg" alt="" loading="lazy">
-                    <img src="images/wyp-02-placeholder.jpg" alt="" loading="lazy">
-                    <img src="images/wyp-03-placeholder.jpg" alt="" loading="lazy">
-                    <img src="images/wyp-04-placeholder.jpg" alt="" loading="lazy">
-                </div>
+            <article class="project-card has-gallery" data-gallery="wyp" tabindex="0" role="button" aria-haspopup="dialog" aria-label="WYP — view screenshots">
                 <div class="project-meta">
                     <span class="project-number">02</span>
-                    <span class="project-year">2025</span>
+                    <span class="project-year">2026</span>
                 </div>
-                <h3 class="project-title">WYP</h3>
-                <!-- TODO(Cyril): replace this paragraph, the tech tags and the
-                     four wyp-*.jpg placeholders with the real thing. The card
-                     and its showcase are fully wired; only the content is stubbed. -->
+                <h3 class="project-title">WYP — What's Your Pick</h3>
                 <p class="project-description">
-                    Placeholder copy. Describe here what WYP does, who it is for, and
-                    the one decision you are proudest of in the build.
+                    A social sports prediction and pickup-game app shipped for the 2026 
+                    World Cup. Friends make picks on live matches, compete head-to-head, 
+                    and share results.
                 </p>
                 <div class="project-tech">
-                    <span class="tech-tag">Stack</span>
-                    <span class="tech-tag">goes</span>
-                    <span class="tech-tag">here</span>
+                    <span class="tech-tag">React Native</span>
+                    <span class="tech-tag">Expo</span>
+                    <span class="tech-tag">TypeScript</span>
                 </div>
-                <button type="button" class="project-link project-link--app" data-trigger aria-haspopup="dialog">
-                    See the app
-                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-                        <path d="M1 7h11M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                </button>
+                <button class="project-link" type="button">View Screenshots →</button>
             </article>
 
             <article class="project-card">
@@ -1338,6 +1203,20 @@
             </article>
         </div>
     </section>
+
+    <!-- Project Gallery Overlay -->
+    <div class="gallery-overlay" id="galleryOverlay" role="dialog" aria-modal="true" aria-labelledby="galleryTitle">
+        <div class="gallery-panel">
+            <div class="gallery-header">
+                <div>
+                    <h3 class="gallery-title" id="galleryTitle"></h3>
+                    <p class="gallery-subtitle" id="gallerySubtitle"></p>
+                </div>
+                <button class="gallery-close" id="galleryClose" type="button" aria-label="Close gallery">✕</button>
+            </div>
+            <div class="gallery-screens" id="galleryScreens"></div>
+        </div>
+    </div>
 
     <!-- Skills Section -->
     <section id="skills" class="section">
@@ -1460,32 +1339,6 @@
         <p>© 2024 Cyril. Built with passion and code.</p>
     </footer>
 
-    <!-- Paradime screenshot showcase -->
-    <div class="showcase" id="paradimeShowcase" role="dialog" aria-modal="true" aria-label="Paradime app screenshots" hidden>
-        <div class="showcase-surface">
-            <header class="showcase-bar">
-                <div class="showcase-id">
-                    <span class="showcase-mark" id="showcaseMark">Paradime</span>
-                    <span class="showcase-sub" id="showcaseSub">Customer app &middot; Android</span>
-                </div>
-                <button type="button" class="showcase-close" id="showcaseClose" aria-label="Close">
-                    <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true">
-                        <path d="M1.5 1.5l12 12M13.5 1.5l-12 12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
-                    </svg>
-                </button>
-            </header>
-
-            <div class="showcase-rail" id="showcaseRail" tabindex="0" role="group" aria-label="Screenshots. Use the left and right arrow keys.">
-            </div>
-
-            <footer class="showcase-meta">
-                <p class="showcase-caption" id="showcaseCaption" aria-live="polite"></p>
-                <div class="showcase-progress"><span id="showcaseFill"></span></div>
-                <span class="showcase-count" id="showcaseCount"></span>
-            </footer>
-        </div>
-    </div>
-
     <script>
         // Smooth Scrolling
         function setupSmoothScrolling() {
@@ -1542,228 +1395,130 @@
             }, 1500);
         }
 
-        /* ------------------------------------------------------------------
-           App showcase
-
-           One panel serves every app card. A card declares which set of
-           screens it owns via data-showcase; the panel borrows that card's
-           accent colour and rebuilds its rail on open.
-
-           The panel always fills the viewport and only its clip-path changes.
-           On open the clip starts as the card's own rectangle, so the card
-           appears to grow into the screen rather than a new layer fading in
-           on top of it. On close the clip is recomputed against the card's
-           current position, which keeps the exit correct even if the page
-           scrolled or the window was resized while the panel was open.
-           ------------------------------------------------------------------ */
-        const SHOWCASES = {
-            paradime: {
-                mark: 'Paradime',
-                sub: 'Customer app \u00b7 Android',
+        // ------------------------------------------------------------------
+        // Project Screenshot Galleries
+        // Drop your screenshots into assets/screens/ using the filenames
+        // below (3 per project). Portrait phone captures look best —
+        // export at full device resolution (e.g. 1080×2340 or higher).
+        // ------------------------------------------------------------------
+        const projectGalleries = {
+            paradigm: {
+                title: 'Paradigm',
+                subtitle: 'Native Android · Kotlin & Jetpack Compose UI with a Ktor REST backend.',
                 screens: [
-                    {
-                        src: 'images/paradime-01-profile.jpg',
-                        title: 'Provider profile',
-                        body: 'Rating, portfolio, and two prices \u2014 one for coming to the studio, one for coming to you.',
-                        alt: 'Paradime provider profile for Julie, showing a four star rating, a $150 studio price and a $100 travel price, and an About section.'
-                    },
-                    {
-                        src: 'images/paradime-02-location.jpg',
-                        title: 'Service location',
-                        body: 'Studio or your address. The choice is made before pricing, because it changes the price.',
-                        alt: 'Paradime service location screen offering Provider Studio or at my home, with at my home selected.'
-                    },
-                    {
-                        src: 'images/paradime-03-services.jpg',
-                        title: 'Service menu',
-                        body: 'Every provider sets their own menu and prices. Nothing here is a platform default.',
-                        alt: 'Paradime service list with Classic Manicure, Gel Polish, Acrylic Extensions, Spa Pedicure and Nail Art, with Spa Pedicure selected.'
-                    },
-                    {
-                        src: 'images/paradime-04-payment.jpg',
-                        title: 'Checkout',
-                        body: 'Card capture with an option to save the method for the next booking.',
-                        alt: 'Paradime payment screen with card number, expiry and CVC fields and a Pay $84.75 button.'
-                    }
+                    { src: 'assets/screens/paradigm-1.png', caption: 'Home' },
+                    { src: 'assets/screens/paradigm-2.png', caption: 'Detail view' },
+                    { src: 'assets/screens/paradigm-3.png', caption: 'Profile' }
                 ]
             },
-            // TODO(Cyril): swap in the real WYP screens, titles and captions.
             wyp: {
-                mark: 'WYP',
-                sub: 'Placeholder \u00b7 awaiting real screens',
+                title: "WYP — What's Your Pick",
+                subtitle: 'Social sports predictions · React Native (Expo), shipped for the 2026 World Cup.',
                 screens: [
-                    { src: 'images/wyp-01-placeholder.jpg', title: 'Home', body: 'Placeholder. Describe what this screen does.', alt: 'Placeholder image for a WYP screenshot.' },
-                    { src: 'images/wyp-02-placeholder.jpg', title: 'Core action', body: 'Placeholder. Describe what this screen does.', alt: 'Placeholder image for a WYP screenshot.' },
-                    { src: 'images/wyp-03-placeholder.jpg', title: 'Detail', body: 'Placeholder. Describe what this screen does.', alt: 'Placeholder image for a WYP screenshot.' },
-                    { src: 'images/wyp-04-placeholder.jpg', title: 'Profile', body: 'Placeholder. Describe what this screen does.', alt: 'Placeholder image for a WYP screenshot.' }
+                    { src: 'assets/screens/wyp-1.png', caption: 'Match picks' },
+                    { src: 'assets/screens/wyp-2.png', caption: 'Head-to-head' },
+                    { src: 'assets/screens/wyp-3.png', caption: 'Results & sharing' }
                 ]
             }
         };
 
-        function setupAppShowcases() {
-            const showcase = document.getElementById('paradimeShowcase');
-            if (!showcase) return;
+        const galleryOverlay = document.getElementById('galleryOverlay');
+        const galleryTitle = document.getElementById('galleryTitle');
+        const gallerySubtitle = document.getElementById('gallerySubtitle');
+        const galleryScreens = document.getElementById('galleryScreens');
+        const galleryClose = document.getElementById('galleryClose');
+        let lastFocusedCard = null;
 
-            const surface = showcase.querySelector('.showcase-surface');
-            const rail = document.getElementById('showcaseRail');
-            const closeBtn = document.getElementById('showcaseClose');
-            const caption = document.getElementById('showcaseCaption');
-            const fill = document.getElementById('showcaseFill');
-            const count = document.getElementById('showcaseCount');
-            const mark = document.getElementById('showcaseMark');
-            const sub = document.getElementById('showcaseSub');
+        function buildGallery(key) {
+            const data = projectGalleries[key];
+            if (!data) return false;
 
-            const calm = window.matchMedia('(prefers-reduced-motion: reduce)');
-            const pad = (n) => String(n).padStart(2, '0');
+            galleryTitle.textContent = data.title;
+            gallerySubtitle.textContent = data.subtitle;
+            galleryScreens.innerHTML = '';
 
-            let phones = [];
-            let total = 0;
-            let current = -1;
-            let isOpen = false;
-            let activeCard = null;
-            let lastFocused = null;
+            data.screens.forEach((screen, i) => {
+                const shot = document.createElement('figure');
+                shot.className = 'gallery-shot';
 
-            function clipFromCard() {
-                if (!activeCard) return 'inset(50% 50% 50% 50% round 12px)';
-                const r = activeCard.getBoundingClientRect();
-                const right = Math.max(0, window.innerWidth - r.right);
-                const bottom = Math.max(0, window.innerHeight - r.bottom);
-                return `inset(${Math.max(0, r.top)}px ${right}px ${bottom}px ${Math.max(0, r.left)}px round 12px)`;
-            }
+                const img = document.createElement('img');
+                img.src = screen.src;
+                img.alt = data.title + ' — ' + screen.caption;
+                img.loading = 'lazy';
+                img.decoding = 'async';
 
-            function build(config) {
-                mark.textContent = config.mark;
-                sub.innerHTML = config.sub;
-                rail.innerHTML = config.screens.map((s, i) => `
-                    <figure class="showcase-phone" style="--i:${i}">
-                        <img src="${s.src}" alt="${s.alt}" width="720" height="1560">
-                    </figure>`).join('');
-                phones = Array.from(rail.querySelectorAll('.showcase-phone'));
-                total = phones.length;
-                phones.forEach((p, i) => p.addEventListener('click', () => scrollToScreen(i)));
-                showcase.dataset.screens = String(total);
-            }
+                // Graceful placeholder until real screenshots are added
+                img.addEventListener('error', () => {
+                    img.style.visibility = 'hidden';
+                    const ph = document.createElement('div');
+                    ph.className = 'shot-placeholder';
+                    ph.innerHTML = '<strong>' + screen.caption + '</strong>' +
+                        'Add screenshot:<br>' + screen.src;
+                    shot.appendChild(ph);
+                }, { once: true });
 
-            function showScreen(index) {
-                if (index === current || index < 0 || index >= total) return;
-                current = index;
-                const screen = SHOWCASES[activeCard.dataset.showcase].screens[index];
+                const caption = document.createElement('figcaption');
+                caption.className = 'shot-caption';
+                caption.textContent = screen.caption;
 
-                phones.forEach((p, i) => p.classList.toggle('is-active', i === index));
-                fill.style.width = ((index + 1) / total * 100).toFixed(3) + '%';
-                count.textContent = pad(index + 1) + ' / ' + pad(total);
-
-                const swap = () => {
-                    caption.innerHTML = '<strong>' + screen.title + '</strong>' + screen.body;
-                    caption.classList.remove('is-swapping');
-                };
-                if (calm.matches) { swap(); return; }
-                caption.classList.add('is-swapping');
-                setTimeout(swap, 200);
-            }
-
-            // Whichever screen leads the rail is the one described underneath it.
-            let ticking = false;
-            let holdUntil = 0;
-            rail.addEventListener('scroll', () => {
-                if (ticking || !phones.length || performance.now() < holdUntil) return;
-                ticking = true;
-                requestAnimationFrame(() => {
-                    const mid = rail.scrollLeft + rail.clientWidth / 2;
-                    let best = 0, bestDist = Infinity;
-                    phones.forEach((p, i) => {
-                        const centre = p.offsetLeft + p.offsetWidth / 2;
-                        const dist = Math.abs(centre - mid);
-                        if (dist < bestDist) { bestDist = dist; best = i; }
-                    });
-                    showScreen(best);
-                    ticking = false;
-                });
-            }, { passive: true });
-
-            function scrollToScreen(index) {
-                const p = phones[index];
-                if (!p) return;
-                holdUntil = performance.now() + 650;
-                showScreen(index);
-                rail.scrollTo({
-                    left: p.offsetLeft - (rail.clientWidth - p.offsetWidth) / 2,
-                    behavior: calm.matches ? 'auto' : 'smooth'
-                });
-            }
-
-            function open(card) {
-                if (isOpen) return;
-                const config = SHOWCASES[card.dataset.showcase];
-                if (!config) return;
-
-                isOpen = true;
-                activeCard = card;
-                lastFocused = document.activeElement;
-
-                build(config);
-                // Borrow the card's accent so the panel belongs to that project.
-                surface.style.setProperty('--accent',
-                    getComputedStyle(card).getPropertyValue('--accent').trim());
-
-                showcase.hidden = false;
-                surface.style.clipPath = clipFromCard();
-                document.body.classList.add('is-locked');
-
-                // Two frames: one to commit the starting clip, one to release it.
-                requestAnimationFrame(() => requestAnimationFrame(() => {
-                    surface.style.clipPath = '';
-                    showcase.classList.add('is-open');
-                }));
-
-                current = -1;
-                rail.scrollLeft = 0;
-                showScreen(0);
-                closeBtn.focus({ preventScroll: true });
-            }
-
-            function close() {
-                if (!isOpen) return;
-                isOpen = false;
-
-                surface.style.clipPath = clipFromCard();
-                showcase.classList.remove('is-open');
-                document.body.classList.remove('is-locked');
-
-                const done = () => {
-                    showcase.hidden = true;
-                    surface.style.clipPath = '';
-                    activeCard = null;
-                };
-                if (calm.matches) { done(); } else { setTimeout(done, 600); }
-
-                if (lastFocused) lastFocused.focus({ preventScroll: true });
-            }
-
-            document.querySelectorAll('[data-showcase]').forEach((card) => {
-                card.addEventListener('click', () => open(card));
-                card.addEventListener('keydown', (e) => {
-                    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(card); }
-                });
-                const trigger = card.querySelector('[data-trigger]');
-                if (trigger) {
-                    trigger.addEventListener('click', (e) => { e.stopPropagation(); open(card); });
-                }
+                shot.appendChild(img);
+                shot.appendChild(caption);
+                galleryScreens.appendChild(shot);
             });
 
-            closeBtn.addEventListener('click', close);
+            return true;
+        }
+
+        function openGallery(key, triggerEl) {
+            if (!buildGallery(key)) return;
+            lastFocusedCard = triggerEl || null;
+            document.body.classList.add('gallery-open');
+
+            // Double rAF so the browser paints the closed state first,
+            // letting every transition play from frame one.
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    galleryOverlay.classList.add('open');
+                });
+            });
+
+            setTimeout(() => galleryClose.focus({ preventScroll: true }), 350);
+        }
+
+        function closeGallery() {
+            galleryOverlay.classList.remove('open');
+            document.body.classList.remove('gallery-open');
+            if (lastFocusedCard) {
+                lastFocusedCard.focus({ preventScroll: true });
+                lastFocusedCard = null;
+            }
+        }
+
+        function setupGalleries() {
+            document.querySelectorAll('.project-card.has-gallery').forEach(card => {
+                const key = card.dataset.gallery;
+
+                card.addEventListener('click', () => openGallery(key, card));
+                card.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        openGallery(key, card);
+                    }
+                });
+            });
+
+            galleryClose.addEventListener('click', (e) => {
+                e.stopPropagation();
+                closeGallery();
+            });
+
+            galleryOverlay.addEventListener('click', (e) => {
+                if (e.target === galleryOverlay) closeGallery();
+            });
 
             document.addEventListener('keydown', (e) => {
-                if (!isOpen) return;
-                if (e.key === 'Escape') { close(); return; }
-                if (e.key === 'ArrowRight') { e.preventDefault(); scrollToScreen(current + 1); }
-                if (e.key === 'ArrowLeft')  { e.preventDefault(); scrollToScreen(current - 1); }
-                if (e.key === 'Tab') {
-                    // Keep focus inside the panel while it is modal.
-                    const stops = [closeBtn, rail];
-                    const i = stops.indexOf(document.activeElement);
-                    e.preventDefault();
-                    stops[(i + (e.shiftKey ? stops.length - 1 : 1)) % stops.length].focus();
+                if (e.key === 'Escape' && galleryOverlay.classList.contains('open')) {
+                    closeGallery();
                 }
             });
         }
@@ -1772,7 +1527,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             setupSmoothScrolling();
             updateActiveNav();
-            setupAppShowcases();
+            setupGalleries();
         });
     </script>
 </body>
