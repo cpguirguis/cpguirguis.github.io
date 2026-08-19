@@ -708,7 +708,7 @@
 
         .gallery-screens {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
             gap: 1.5rem;
             align-items: start;
             overflow-y: auto;
@@ -738,6 +738,7 @@
         .gallery-overlay.open .gallery-shot:nth-child(1) { transition-delay: 0.08s; }
         .gallery-overlay.open .gallery-shot:nth-child(2) { transition-delay: 0.16s; }
         .gallery-overlay.open .gallery-shot:nth-child(3) { transition-delay: 0.24s; }
+        .gallery-overlay.open .gallery-shot:nth-child(4) { transition-delay: 0.32s; }
 
         .gallery-shot:hover {
             box-shadow: 0 26px 70px rgba(10, 10, 10, 0.16);
@@ -1406,18 +1407,19 @@
                 title: 'Paradigm',
                 subtitle: 'Native Android · Kotlin & Jetpack Compose UI with a Ktor REST backend.',
                 screens: [
-                    { src: 'assets/screens/paradigm-1.png', caption: 'Home' },
-                    { src: 'assets/screens/paradigm-2.png', caption: 'Detail view' },
-                    { src: 'assets/screens/paradigm-3.png', caption: 'Profile' }
+                    { src: 'paradime-01-profile.jpg', caption: 'Profile' },
+                    { src: 'paradime-02-location.jpg', caption: 'Location' },
+                    { src: 'paradime-03-services.jpg', caption: 'Services' },
+                    { src: 'paradime-04-payment.jpg', caption: 'Payment' }
                 ]
             },
             wyp: {
                 title: "WYP — What's Your Pick",
                 subtitle: 'Social sports predictions · React Native (Expo), shipped for the 2026 World Cup.',
                 screens: [
-                    { src: 'assets/screens/wyp-1.png', caption: 'Match picks' },
-                    { src: 'assets/screens/wyp-2.png', caption: 'Head-to-head' },
-                    { src: 'assets/screens/wyp-3.png', caption: 'Results & sharing' }
+                    { src: 'wyp-01-picks.jpg', caption: 'Match picks' },
+                    { src: 'wyp-02-head-to-head.jpg', caption: 'Head-to-head' },
+                    { src: 'wyp-03-results.jpg', caption: 'Results & sharing' }
                 ]
             }
         };
